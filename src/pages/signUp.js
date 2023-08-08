@@ -45,7 +45,7 @@ const SignUp = () => {
         console.error(e);
       }
     },
-    [email, password]
+    [email, password, navigate]
   );
 
   return (
