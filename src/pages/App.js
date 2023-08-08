@@ -7,7 +7,7 @@ const App = () => {
   const [todoText, setTodoText] = useState("");
   const [todoList, setTodoList] = useState([]);
 
-  /** To-Do 가져오기 */
+  /** Get To-Do */
   useEffect(() => {
     const axiosGetHeaders = {
       Authorization: `Bearer ${window.localStorage.getItem("JWT")}`,
@@ -20,7 +20,7 @@ const App = () => {
       .catch((err) => console.error(err));
   }, []);
 
-  /** To-do 추가하기 */
+  /** Create To-Do */
   const createTodoHandler = useCallback(
     async (e) => {
       e.preventDefault();
@@ -39,7 +39,7 @@ const App = () => {
           }
         );
         const result = res.data;
-        setTodoList([result, ...todoList]);
+        setTodoList([...todoList, result]);
         setTodoText("");
       } catch (e) {
         console.error(e);
@@ -48,6 +48,59 @@ const App = () => {
     [todoText, todoList]
   );
 
+  /** Update To-Do */
+  const updateTodoHandler = async (data) => {
+    const axiosPutHeaders = {
+      Authorization: `Bearer ${window.localStorage.getItem("JWT")}`,
+      "Content-Type": "application/json",
+    };
+
+    const updatedData = {
+      todo: data.todo,
+      isCompleted: data.isCompleted,
+    };
+
+    try {
+      const res = await axios.put(
+        `https://www.pre-onboarding-selection-task.shop/todos/${data.id}`,
+        updatedData,
+        { headers: axiosPutHeaders }
+      );
+      const newTodoList = todoList.map((todo) => {
+        if (todo.id === res.data.id) {
+          return data;
+        } else {
+          return todo;
+        }
+      });
+      setTodoList(newTodoList);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  /** Delete To-Do */
+  const deleteTodoHandler = async (id) => {
+    const axiosDeleteHeaders = {
+      Authorization: `Bearer ${window.localStorage.getItem("JWT")}`,
+    };
+    try {
+      const res = await axios.delete(
+        `https://www.pre-onboarding-selection-task.shop/todos/${id}`,
+
+        {
+          headers: axiosDeleteHeaders,
+        }
+      );
+      if (res.status === 204) {
+        setTodoList(todoList.filter((todo) => todo.id !== id));
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  /** Save To-Do Text */
   const todoTextInputHandler = (e) => {
     setTodoText(e.target.value);
   };
@@ -62,7 +115,11 @@ const App = () => {
       />
       <ul>
         {todoList.map((todo) => (
-          <TodoItem todo={todo} />
+          <TodoItem
+            data={todo}
+            deleteTodo={deleteTodoHandler}
+            updateTodo={updateTodoHandler}
+          />
         ))}
       </ul>
     </div>

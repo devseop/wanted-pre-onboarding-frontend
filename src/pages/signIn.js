@@ -39,8 +39,7 @@ const SignIn = () => {
         // JWT가 없으면 재로그인 시도
         if (window.localStorage.getItem("JWT").length === 0) {
           alert("로그인에 실패했습니다. 다시 로그인해주세요.");
-          setEmail("");
-          setPassword("");
+          navigate("/signin");
         } else {
           // JWT가 있으면 /todo로 이동
           alert("로그인에 성공했습니다.");
