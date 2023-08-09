@@ -2,6 +2,7 @@ import { useState, useCallback, useEffect } from "react";
 import axios from "axios";
 import TodoForm from "../components/TodoForm";
 import TodoItem from "../components/TodoItem";
+import styled from "@emotion/styled";
 
 const App = () => {
   const [todoText, setTodoText] = useState("");
@@ -106,24 +107,80 @@ const App = () => {
   };
 
   return (
-    <div>
-      <h3>To-Do List</h3>
-      <TodoForm
-        todoText={todoText}
-        onSubmit={createTodoHandler}
-        onChange={todoTextInputHandler}
-      />
-      <ul>
-        {todoList.map((todo) => (
-          <TodoItem
-            data={todo}
-            deleteTodo={deleteTodoHandler}
-            updateTodo={updateTodoHandler}
+    <Styled.Background>
+      <Styled.TodoContainer>
+        <Styled.TodoHeader>
+          <h1>오늘의 할 일</h1>
+          <h2>{todoList.length}개</h2>
+        </Styled.TodoHeader>
+        <Styled.TodoContents>
+          <ul>
+            {todoList.map((todo) => (
+              <TodoItem
+                data={todo}
+                deleteTodo={deleteTodoHandler}
+                updateTodo={updateTodoHandler}
+              />
+            ))}
+          </ul>
+          <TodoForm
+            todoText={todoText}
+            onSubmit={createTodoHandler}
+            onChange={todoTextInputHandler}
           />
-        ))}
-      </ul>
-    </div>
+        </Styled.TodoContents>
+      </Styled.TodoContainer>
+    </Styled.Background>
   );
 };
+
+const Background = styled.div`
+  background-color: #23232c;
+  height: 100vh;
+  padding: 96px 0;
+`;
+
+const TodoContainer = styled.div`
+  background-color: #fff;
+  border-radius: 16px;
+  width: 460px;
+  height: 768px;
+  margin: 0 auto;
+`;
+
+const TodoHeader = styled.div`
+  padding: 32px;
+  display: flex;
+  justify-content: space-between;
+
+  h1 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 700;
+    color: #222;
+  }
+
+  h2 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 700;
+    text-align: right;
+    color: #2f6afe;
+  }
+`;
+
+const TodoContents = styled.div`
+  padding: 32px;
+  height: calc(100% - 108px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-top: 1px solid #e9ecef;
+  ul {
+    list-style-type: none;
+  }
+`;
+
+const Styled = { Background, TodoContainer, TodoHeader, TodoContents };
 
 export default App;

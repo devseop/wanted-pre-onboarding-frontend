@@ -1,6 +1,10 @@
+import styled from "@emotion/styled";
+
 const TodoForm = ({ todoText, onSubmit, onChange }) => {
+  const isBtnVaild = !(todoText.length > 0);
+
   return (
-    <form onSubmit={(e) => onSubmit(e)}>
+    <Styled.Form onSubmit={(e) => onSubmit(e)}>
       <input
         data-testid="new-todo-input"
         type="text"
@@ -8,11 +12,46 @@ const TodoForm = ({ todoText, onSubmit, onChange }) => {
         value={todoText}
         onChange={(e) => onChange(e)}
       />
-      <button data-testid="new-todo-add-button" type="submit">
+      <button
+        data-testid="new-todo-add-button"
+        type="submit"
+        disabled={isBtnVaild}
+        isBtnVaild={isBtnVaild}
+      >
         추가
       </button>
-    </form>
+    </Styled.Form>
   );
 };
+
+const Form = styled.form`
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+
+  input {
+    width: 100%;
+    height: 44px;
+    border: none;
+    background: #fff;
+    outline: none;
+  }
+
+  button {
+    width: 40px;
+    border: none;
+    background-color: transparent;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    color: #2f6afe;
+    text-align: right;
+  }
+`;
+
+const Styled = { Form };
 
 export default TodoForm;
