@@ -18,7 +18,20 @@ const TodoItem = ({ data, deleteTodo, updateTodo }) => {
     setUpdatedText(e.target.value);
   };
 
+  /** To-Do 수정  */
   const submitUpdateTodoHandler = (e) => {
+    e.preventDefault();
+    const updatedTodoItem = {
+      id: id,
+      todo: updatedText,
+      isCompleted: isCompleted,
+    };
+    updateTodo(updatedTodoItem);
+    setIsUpdate(false);
+  };
+
+  /** 완료여부 POST */
+  const checkedUpdateHandlger = (e) => {
     e.preventDefault();
     const updatedTodoItem = {
       id: id,
@@ -26,7 +39,6 @@ const TodoItem = ({ data, deleteTodo, updateTodo }) => {
       isCompleted: !isCompleted,
     };
     updateTodo(updatedTodoItem);
-    setIsUpdate(false);
   };
 
   return (
@@ -36,7 +48,7 @@ const TodoItem = ({ data, deleteTodo, updateTodo }) => {
           <label>
             <input
               type="checkbox"
-              onChange={submitUpdateTodoHandler}
+              onChange={checkedUpdateHandlger}
               checked={isCompleted ? true : false}
             />
             <Styled.Span isCompleted={isCompleted ? true : false}>
