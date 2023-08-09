@@ -37,6 +37,7 @@ npm start
 ## 과제 데모영상
 
 ### 회원가입
+![signup](https://github.com/devseop/wanted-pre-onboarding-frontend/assets/102455161/f411ca14-512a-4058-b3fd-154a52d2774f)
 
 - [x] 회원가입과 로그인 페이지에 이메일과 비밀번호의 유효성 검사기능을 구현해주세요
   - 이메일 조건: @ 포함
@@ -45,6 +46,7 @@ npm start
 - [x] 회원가입 페이지에서 버튼을 클릭 시 회원가입을 진행하고 회원가입이 정상적으로 완료되었을 시 `/signin` 경로로 이동해주세요
 
 ### 로그인
+![sginin](https://github.com/devseop/wanted-pre-onboarding-frontend/assets/102455161/e991e55f-afeb-447c-8e40-a582040594a7)
 
 - [x] 회원가입과 로그인 페이지에 이메일과 비밀번호의 유효성 검사기능을 구현해주세요
 
@@ -58,6 +60,8 @@ npm start
   - 로컬 스토리지에 토큰이 없는 상태로 `/todo`페이지에 접속한다면 `/signin` 경로로 리다이렉트 시켜주세요
 
 ### To-Do List
+![todo](https://github.com/devseop/wanted-pre-onboarding-frontend/assets/102455161/62804ced-6eb3-42ec-9900-d843b186d7d9)
+
 
 - [x] `/todo`경로에 접속하면 투두 리스트의 목록을 볼 수 있도록 해주세요
   - 목록에서는 TODO의 내용과 완료 여부가 표시되어야 합니다.
