@@ -72,11 +72,15 @@ const SignUp = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <button type="submit" data-testid="signup-button" disabled={isValid}>
+          <Styled.Button
+            type="button"
+            data-testid="signup-button"
+            disabled={isValid ? true : false}
+          >
             가입하기
-          </button>
+          </Styled.Button>
           <p>
-            이미 계정이 있으신가요? <Link to="/signup">로그인하기</Link>
+            이미 계정이 있으신가요? <Link to="/signin">로그인하기</Link>
           </p>
         </form>
       </Styled.Container>
@@ -116,17 +120,6 @@ const Container = styled.div`
       padding: 12px;
     }
 
-    button {
-      height: 44px;
-      border-radius: 8px;
-      border: none;
-      font-size: 16px;
-      font-weight: 700;
-      color: #fff;
-      background-color: ${(props) => (props.isValid ? "#2f6afe" : "lightgray")};
-      cursor: ${(props) => (props.isValid ? "pointer" : "not-allowed")};
-    }
-
     p {
       margin-top: 24px;
       display: flex;
@@ -145,6 +138,17 @@ const Container = styled.div`
   }
 `;
 
-const Styled = { Background, Container };
+const Button = styled.button`
+  height: 44px;
+  border-radius: 8px;
+  border: none;
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  background-color: ${(props) => (props.disabled ? "lightgray" : "#2f6afe")};
+  cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
+`;
+
+const Styled = { Background, Container, Button };
 
 export default SignUp;

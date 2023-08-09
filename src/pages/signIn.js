@@ -75,14 +75,13 @@ const SignIn = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <button
+          <Styled.Button
             type="submit"
             data-testid="signin-button"
-            disabled={isValid}
-            isValid={isValid}
+            disabled={isValid ? true : false}
           >
             로그인
-          </button>
+          </Styled.Button>
           <p>
             회원이 아니신가요? <Link to="/signup">회원가입하기</Link>
           </p>
@@ -124,17 +123,6 @@ const Container = styled.div`
       padding: 12px;
     }
 
-    button {
-      height: 44px;
-      border-radius: 8px;
-      border: none;
-      font-size: 16px;
-      font-weight: 700;
-      color: #fff;
-      background-color: ${(props) => (props.isValid ? "#2f6afe" : "lightgray")};
-      cursor: ${(props) => (props.isValid ? "pointer" : "not-allowed")};
-    }
-
     p {
       margin-top: 24px;
       display: flex;
@@ -153,6 +141,17 @@ const Container = styled.div`
   }
 `;
 
-const Styled = { Background, Container };
+const Button = styled.button`
+  height: 44px;
+  border-radius: 8px;
+  border: none;
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  background-color: ${(props) => (props.disabled ? "lightgray" : "#2f6afe")};
+  cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
+`;
+
+const Styled = { Background, Container, Button };
 
 export default SignIn;
