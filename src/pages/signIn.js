@@ -1,6 +1,7 @@
 import { useCallback, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import styled from "@emotion/styled";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
@@ -33,7 +34,7 @@ const SignIn = () => {
         );
         // 로그인 성공시 로컬 스토리지에 JWT 저장
         if (res.status === 200) {
-          console.log("✅ OK");
+          // console.log("✅ OK");
           window.localStorage.setItem("JWT", res.data.access_token);
         }
         // JWT가 없으면 재로그인 시도
@@ -53,32 +54,105 @@ const SignIn = () => {
   );
 
   return (
-    <>
-      <div>로그인</div>
-      <form onSubmit={signInSubmitHandler}>
-        <label htmlFor="email">이메일</label>
-        <input
-          data-testid="email-input"
-          name="email"
-          placeholder="todo@gmail.com"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <label htmlFor="password">비밀번호</label>
-        <input
-          data-testid="password-input"
-          name="password"
-          placeholder="8자 이상"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <button type="submit" data-testid="signin-button" disabled={isValid}>
-          로그인
-        </button>
-      </form>
-    </>
+    <Styled.Background>
+      <Styled.Container>
+        <h1>로그인</h1>
+        <form onSubmit={signInSubmitHandler}>
+          <label htmlFor="email">이메일</label>
+          <input
+            data-testid="email-input"
+            name="email"
+            placeholder="todo@gmail.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <label htmlFor="password">비밀번호</label>
+          <input
+            data-testid="password-input"
+            name="password"
+            placeholder="8자 이상"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <button
+            type="submit"
+            data-testid="signin-button"
+            disabled={isValid}
+            isValid={isValid}
+          >
+            로그인
+          </button>
+          <p>
+            회원이 아니신가요? <Link to="/signup">회원가입하기</Link>
+          </p>
+        </form>
+      </Styled.Container>
+    </Styled.Background>
   );
 };
+
+const Background = styled.div`
+  background-color: #23232c;
+  height: 100vh;
+  padding: 96px 0;
+`;
+
+const Container = styled.div`
+  width: 460px;
+  margin: 0 auto;
+  color: #fff;
+
+  h1 {
+    margin-bottom: 32px;
+    font-size: 24px;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+
+    input {
+      margin-top: 8px;
+      margin-bottom: 24px;
+      border-radius: 8px;
+      border: none;
+      height: 40px;
+      outline: none;
+      padding: 12px;
+    }
+
+    button {
+      height: 44px;
+      border-radius: 8px;
+      border: none;
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+      background-color: ${(props) => (props.isValid ? "#2f6afe" : "lightgray")};
+      cursor: ${(props) => (props.isValid ? "pointer" : "not-allowed")};
+    }
+
+    p {
+      margin-top: 24px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      justify-content: center;
+
+      a:link {
+        color: #2f6afe;
+      }
+
+      a:visited {
+        color: #2f6afe;
+      }
+    }
+  }
+`;
+
+const Styled = { Background, Container };
 
 export default SignIn;
