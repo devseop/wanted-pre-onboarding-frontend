@@ -3,10 +3,20 @@ import axios from "axios";
 import TodoForm from "../components/TodoForm";
 import TodoItem from "../components/TodoItem";
 import styled from "@emotion/styled";
+import { useNavigate } from "react-router-dom";
 
 const App = () => {
   const [todoText, setTodoText] = useState("");
   const [todoList, setTodoList] = useState([]);
+
+  const navigate = useNavigate();
+
+  /** JWT 없으면 로그인으로 리다이렉트 */
+  useEffect(() => {
+    if (!window.localStorage.getItem("JWT")) {
+      navigate("/signin");
+    }
+  });
 
   /** Get To-Do */
   useEffect(() => {
@@ -135,7 +145,7 @@ const App = () => {
 const Background = styled.div`
   background-color: #23232c;
   height: 100vh;
-  padding: 96px 0;
+  padding: 220px 0 0;
 `;
 
 const TodoContainer = styled.div`

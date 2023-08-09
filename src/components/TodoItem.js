@@ -36,10 +36,12 @@ const TodoItem = ({ data, deleteTodo, updateTodo }) => {
           <label>
             <input
               type="checkbox"
-              onClick={submitUpdateTodoHandler}
+              onChange={submitUpdateTodoHandler}
               checked={isCompleted ? true : false}
             />
-            <span>{todo}</span>
+            <Styled.Span isCompleted={isCompleted ? true : false}>
+              {todo}
+            </Styled.Span>
           </label>
           <Styled.ButtonsContainer>
             <button
@@ -123,10 +125,17 @@ const TodoItemContainer = styled.li`
     input[type="checkbox"]:checked {
       background: #2f6afe;
     }
+
     input[type="checkbox"]:checked::after {
       display: block;
     }
   }
+`;
+
+const Span = styled.span`
+  font-size: 17px;
+  font-weight: 500;
+  opacity: ${(props) => (props.isCompleted ? 0.2 : 1)};
 `;
 
 const EditForm = styled.form`
@@ -166,6 +175,6 @@ const ButtonsContainer = styled.div`
   }
 `;
 
-const Styled = { TodoItemContainer, EditForm, ButtonsContainer };
+const Styled = { TodoItemContainer, EditForm, ButtonsContainer, Span };
 
 export default TodoItem;

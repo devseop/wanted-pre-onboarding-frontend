@@ -92,7 +92,7 @@ const SignUp = () => {
 const Background = styled.div`
   background-color: #23232c;
   height: 100vh;
-  padding: 96px 0;
+  padding: 220px 0 0;
 `;
 
 const Container = styled.div`
