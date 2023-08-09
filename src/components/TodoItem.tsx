@@ -1,3 +1,4 @@
+import React from "react";
 import styled from "@emotion/styled";
 import { useState } from "react";
 import {
@@ -6,22 +7,23 @@ import {
   RiCheckFill,
   RiCloseFill,
 } from "react-icons/ri";
+import { ITodoItemProps, ITodoItemPropsToServer } from "../types";
 
-const TodoItem = ({ data, deleteTodo, updateTodo }) => {
+const TodoItem = ({ data, deleteTodo, updateTodo }: ITodoItemProps) => {
   const { id, todo, isCompleted } = data;
 
   // To-Do 수정을 위한 state 선언
-  const [isUpdate, setIsUpdate] = useState(false);
-  const [updatedText, setUpdatedText] = useState(todo);
+  const [isUpdate, setIsUpdate] = useState<boolean>(false);
+  const [updatedText, setUpdatedText] = useState<string>(todo);
 
-  const updatedTextHandler = (e) => {
+  const updatedTextHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUpdatedText(e.target.value);
   };
 
   /** To-Do 수정  */
-  const submitUpdateTodoHandler = (e) => {
+  const submitUpdateTodoHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const updatedTodoItem = {
+    const updatedTodoItem: ITodoItemPropsToServer = {
       id: id,
       todo: updatedText,
       isCompleted: isCompleted,
@@ -31,9 +33,9 @@ const TodoItem = ({ data, deleteTodo, updateTodo }) => {
   };
 
   /** 완료여부 POST */
-  const checkedUpdateHandlger = (e) => {
+  const checkedUpdateHandlger = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
-    const updatedTodoItem = {
+    const updatedTodoItem: ITodoItemPropsToServer = {
       id: id,
       todo: updatedText,
       isCompleted: !isCompleted,
@@ -144,7 +146,7 @@ const TodoItemContainer = styled.li`
   }
 `;
 
-const Span = styled.span`
+const Span = styled.span<{ isCompleted: boolean }>`
   font-size: 17px;
   font-weight: 500;
   opacity: ${(props) => (props.isCompleted ? 0.2 : 1)};

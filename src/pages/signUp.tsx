@@ -1,70 +1,73 @@
-import { useCallback, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React from "react";
 import axios from "axios";
+import { useCallback, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
+import { Link } from "react-router-dom";
+import { TUserInfo } from "../types";
 
-const SignIn = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+const SignUp = () => {
+  const [userInfo, setUserInfo] = useState<TUserInfo>({
+    email: "",
+    password: "",
+  });
   const navigate = useNavigate();
 
+  const signUpUserInfoHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setUserInfo((prev) => {
+      return { ...prev, [name]: value };
+    });
+  };
+
+  /**
+   * 회원가입 버튼 활성화를 위한 유효성 검사 =>
+   * 이메일 @ 포함 / 비밀번호 8자 이상
+   */
   const isValid = !(
-    email !== " " &&
-    email.includes("@") === true &&
-    password !== " " &&
-    password.length >= 8
+    userInfo.email !== " " &&
+    userInfo.email.includes("@") === true &&
+    userInfo.password !== " " &&
+    userInfo.password.length >= 8
   );
 
-  const signInSubmitHandler = useCallback(
-    async (e) => {
+  const signUpSubmitHandler = useCallback(
+    async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      const signInData = {
-        email: email,
-        password: password,
-      };
+
       const axiosPostHeaders = { "Content-Type": "application/json" };
 
       try {
         const res = await axios.post(
-          `https://www.pre-onboarding-selection-task.shop/auth/signin`,
-          signInData,
+          `https://www.pre-onboarding-selection-task.shop/auth/signup`,
+          userInfo,
           {
             headers: axiosPostHeaders,
           }
         );
-        // 로그인 성공시 로컬 스토리지에 JWT 저장
-        if (res.status === 200) {
-          // console.log("✅ OK");
-          window.localStorage.setItem("JWT", res.data.access_token);
-        }
-        // JWT가 없으면 재로그인 시도
-        if (window.localStorage.getItem("JWT").length === 0) {
-          alert("로그인에 실패했습니다. 다시 로그인해주세요.");
+        if (res.status === 201) {
+          alert("회원가입이 완료되었습니다. 로그인을 진행해주세요.");
           navigate("/signin");
-        } else {
-          // JWT가 있으면 /todo로 이동
-          alert("로그인에 성공했습니다.");
-          navigate("/todo");
         }
       } catch (e) {
         console.error(e);
       }
     },
-    [email, password, navigate]
+    [userInfo, navigate]
   );
 
   return (
     <Styled.Background>
       <Styled.Container>
-        <h1>로그인</h1>
-        <form onSubmit={signInSubmitHandler}>
+        <h1>회원가입</h1>
+        <form onSubmit={signUpSubmitHandler}>
           <label htmlFor="email">이메일</label>
           <input
             data-testid="email-input"
             name="email"
             placeholder="todo@gmail.com"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={userInfo.email}
+            onChange={signUpUserInfoHandler}
             autoFocus
           />
           <label htmlFor="password">비밀번호</label>
@@ -73,18 +76,18 @@ const SignIn = () => {
             name="password"
             placeholder="8자 이상"
             type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={userInfo.password}
+            onChange={signUpUserInfoHandler}
           />
           <Styled.Button
             type="submit"
-            data-testid="signin-button"
+            data-testid="signup-button"
             disabled={isValid ? true : false}
           >
-            로그인
+            가입하기
           </Styled.Button>
           <p>
-            회원이 아니신가요? <Link to="/signup">회원가입하기</Link>
+            이미 계정이 있으신가요? <Link to="/signin">로그인하기</Link>
           </p>
         </form>
       </Styled.Container>
@@ -155,4 +158,4 @@ const Button = styled.button`
 
 const Styled = { Background, Container, Button };
 
-export default SignIn;
+export default SignUp;

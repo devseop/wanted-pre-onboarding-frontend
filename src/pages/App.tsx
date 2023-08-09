@@ -1,13 +1,15 @@
+import React from "react";
 import { useState, useCallback, useEffect } from "react";
 import axios from "axios";
 import TodoForm from "../components/TodoForm";
 import TodoItem from "../components/TodoItem";
 import styled from "@emotion/styled";
 import { useNavigate } from "react-router-dom";
+import { ITodoListProps } from "../types";
 
 const App = () => {
-  const [todoText, setTodoText] = useState("");
-  const [todoList, setTodoList] = useState([]);
+  const [todoText, setTodoText] = useState<string>("");
+  const [todoList, setTodoList] = useState<ITodoListProps[]>([]);
 
   const navigate = useNavigate();
 
@@ -33,7 +35,7 @@ const App = () => {
 
   /** Create To-Do */
   const createTodoHandler = useCallback(
-    async (e) => {
+    async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
 
       const axiosPostHeaders = {
@@ -60,7 +62,7 @@ const App = () => {
   );
 
   /** Update To-Do */
-  const updateTodoHandler = async (data) => {
+  const updateTodoHandler = async (data: ITodoListProps) => {
     const axiosPutHeaders = {
       Authorization: `Bearer ${window.localStorage.getItem("JWT")}`,
       "Content-Type": "application/json",
@@ -91,7 +93,7 @@ const App = () => {
   };
 
   /** Delete To-Do */
-  const deleteTodoHandler = async (id) => {
+  const deleteTodoHandler = async (id: number) => {
     const axiosDeleteHeaders = {
       Authorization: `Bearer ${window.localStorage.getItem("JWT")}`,
     };
@@ -112,7 +114,7 @@ const App = () => {
   };
 
   /** Save To-Do Text */
-  const todoTextInputHandler = (e) => {
+  const todoTextInputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTodoText(e.target.value);
   };
 
