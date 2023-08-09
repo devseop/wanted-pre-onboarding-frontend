@@ -4,25 +4,33 @@ const TodoForm = ({ todoText, onSubmit, onChange }) => {
   const isBtnVaild = !(todoText.length > 0);
 
   return (
-    <Styled.Form onSubmit={(e) => onSubmit(e)}>
-      <input
-        data-testid="new-todo-input"
-        type="text"
-        placeholder="할 일을 입력해주세요."
-        value={todoText}
-        onChange={(e) => onChange(e)}
-      />
-      <button
-        data-testid="new-todo-add-button"
-        type="submit"
-        disabled={isBtnVaild}
-        isBtnVaild={isBtnVaild}
-      >
-        추가
-      </button>
-    </Styled.Form>
+    <Styled.Container>
+      <Styled.Form onSubmit={(e) => onSubmit(e)}>
+        <input
+          data-testid="new-todo-input"
+          type="text"
+          placeholder="할 일을 입력해주세요."
+          value={todoText}
+          onChange={(e) => onChange(e)}
+          autoFocus
+        />
+        <Styled.Button
+          data-testid="new-todo-add-button"
+          type="submit"
+          disabled={isBtnVaild ? true : false}
+        >
+          추가
+        </Styled.Button>
+      </Styled.Form>
+    </Styled.Container>
   );
 };
+
+const Container = styled.div`
+  padding: 32px;
+  background-color: #fff;
+  border-radius: 0 0 16px 16px;
+`;
 
 const Form = styled.form`
   padding: 0 16px;
@@ -39,19 +47,20 @@ const Form = styled.form`
     background: #fff;
     outline: none;
   }
-
-  button {
-    width: 40px;
-    border: none;
-    background-color: transparent;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    color: #2f6afe;
-    text-align: right;
-  }
 `;
 
-const Styled = { Form };
+const Button = styled.button`
+  width: 40px;
+  border: none;
+  background-color: transparent;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  color: ${(props) => (props.disabled ? "lightgray" : "#2f6afe")};
+  cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
+  text-align: right;
+`;
+
+const Styled = { Container, Form, Button };
 
 export default TodoForm;

@@ -13,14 +13,9 @@ const TodoItem = ({ data, deleteTodo, updateTodo }) => {
   // To-Do 수정을 위한 state 선언
   const [isUpdate, setIsUpdate] = useState(false);
   const [updatedText, setUpdatedText] = useState(todo);
-  const [updatedCheck, setUpdatedCheck] = useState(isCompleted);
 
   const updatedTextHandler = (e) => {
     setUpdatedText(e.target.value);
-  };
-
-  const updatedCheckHandler = (e) => {
-    setUpdatedCheck((prev) => !prev);
   };
 
   const submitUpdateTodoHandler = (e) => {
@@ -28,7 +23,7 @@ const TodoItem = ({ data, deleteTodo, updateTodo }) => {
     const updatedTodoItem = {
       id: id,
       todo: updatedText,
-      isCompleted: updatedCheck,
+      isCompleted: !isCompleted,
     };
     updateTodo(updatedTodoItem);
     setIsUpdate(false);
@@ -39,7 +34,11 @@ const TodoItem = ({ data, deleteTodo, updateTodo }) => {
       {!isUpdate ? (
         <Styled.TodoItemContainer key={id}>
           <label>
-            <input type="checkbox" onChange={updatedCheckHandler}></input>
+            <input
+              type="checkbox"
+              onClick={submitUpdateTodoHandler}
+              checked={isCompleted ? true : false}
+            />
             <span>{todo}</span>
           </label>
           <Styled.ButtonsContainer>

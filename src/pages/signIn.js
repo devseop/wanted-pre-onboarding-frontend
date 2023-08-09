@@ -65,6 +65,7 @@ const SignIn = () => {
             placeholder="todo@gmail.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            autoFocus
           />
           <label htmlFor="password">비밀번호</label>
           <input

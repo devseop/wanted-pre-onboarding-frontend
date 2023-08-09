@@ -114,21 +114,19 @@ const App = () => {
           <h2>{todoList.length}개</h2>
         </Styled.TodoHeader>
         <Styled.TodoContents>
-          <ul>
-            {todoList.map((todo) => (
-              <TodoItem
-                data={todo}
-                deleteTodo={deleteTodoHandler}
-                updateTodo={updateTodoHandler}
-              />
-            ))}
-          </ul>
-          <TodoForm
-            todoText={todoText}
-            onSubmit={createTodoHandler}
-            onChange={todoTextInputHandler}
-          />
+          {todoList.map((todo) => (
+            <TodoItem
+              data={todo}
+              deleteTodo={deleteTodoHandler}
+              updateTodo={updateTodoHandler}
+            />
+          ))}
         </Styled.TodoContents>
+        <TodoForm
+          todoText={todoText}
+          onSubmit={createTodoHandler}
+          onChange={todoTextInputHandler}
+        />
       </Styled.TodoContainer>
     </Styled.Background>
   );
@@ -141,10 +139,7 @@ const Background = styled.div`
 `;
 
 const TodoContainer = styled.div`
-  background-color: #fff;
-  border-radius: 16px;
   width: 460px;
-  height: 768px;
   margin: 0 auto;
 `;
 
@@ -152,6 +147,8 @@ const TodoHeader = styled.div`
   padding: 32px;
   display: flex;
   justify-content: space-between;
+  border-radius: 16px 16px 0 0;
+  background-color: #fff;
 
   h1 {
     margin: 0;
@@ -169,16 +166,16 @@ const TodoHeader = styled.div`
   }
 `;
 
-const TodoContents = styled.div`
+const TodoContents = styled.ul`
   padding: 32px;
-  height: calc(100% - 108px);
+  height: 580px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   border-top: 1px solid #e9ecef;
-  ul {
-    list-style-type: none;
-  }
+  list-style-type: none;
+  background-color: #fff;
+  overflow-y: auto;
+  overflow-x: hidden;
 `;
 
 const Styled = { Background, TodoContainer, TodoHeader, TodoContents };

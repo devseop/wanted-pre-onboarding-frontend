@@ -62,6 +62,7 @@ const SignUp = () => {
             placeholder="todo@gmail.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            autoFocus
           />
           <label htmlFor="password">비밀번호</label>
           <input
@@ -73,7 +74,7 @@ const SignUp = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
           <Styled.Button
-            type="button"
+            type="submit"
             data-testid="signup-button"
             disabled={isValid ? true : false}
           >
