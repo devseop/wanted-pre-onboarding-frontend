@@ -16,12 +16,14 @@ const TodoItem = ({ data, deleteTodo, updateTodo }: ITodoItemProps) => {
   const [isUpdate, setIsUpdate] = useState<boolean>(false);
   const [updatedText, setUpdatedText] = useState<string>(todo);
 
-  const updatedTextHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const updatedTextHandler = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setUpdatedText(e.target.value);
   };
 
   /** To-Do 수정  */
-  const submitUpdateTodoHandler = (e: React.FormEvent<HTMLFormElement>) => {
+  const submitUpdateTodoHandler = (
+    e: React.FormEvent<HTMLFormElement>
+  ): void => {
     e.preventDefault();
     const updatedTodoItem: ITodoItemPropsToServer = {
       id: id,
@@ -33,7 +35,9 @@ const TodoItem = ({ data, deleteTodo, updateTodo }: ITodoItemProps) => {
   };
 
   /** 완료여부 POST */
-  const checkedUpdateHandlger = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const checkedUpdateHandlger = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ): void => {
     e.preventDefault();
     const updatedTodoItem: ITodoItemPropsToServer = {
       id: id,

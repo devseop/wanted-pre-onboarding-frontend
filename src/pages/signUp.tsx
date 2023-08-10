@@ -4,10 +4,10 @@ import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
-import { TUserInfo } from "../types";
+import { IUserInfo } from "../types";
 
 const SignUp = () => {
-  const [userInfo, setUserInfo] = useState<TUserInfo>({
+  const [userInfo, setUserInfo] = useState<IUserInfo>({
     email: "",
     password: "",
   });

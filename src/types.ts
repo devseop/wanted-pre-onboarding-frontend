@@ -1,7 +1,7 @@
-export type TUserInfo = {
+export interface IUserInfo {
   email: string;
   password: string;
-};
+}
 
 export interface ITodoListProps {
   id: number;

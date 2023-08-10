@@ -3,10 +3,10 @@ import { useCallback, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import styled from "@emotion/styled";
-import { TUserInfo } from "../types";
+import { IUserInfo } from "../types";
 
 const SignIn = () => {
-  const [userInfo, setUserInfo] = useState<TUserInfo>({
+  const [userInfo, setUserInfo] = useState<IUserInfo>({
     email: "",
     password: "",
   });
@@ -50,7 +50,8 @@ const SignIn = () => {
           navigate("/signin");
         } else {
           // JWT가 있으면 /todo로 이동
-          alert("로그인에 성공했습니다.");
+          console.log(res);
+          // alert("로그인에 성공했습니다.");
           navigate("/todo");
         }
       } catch (e) {

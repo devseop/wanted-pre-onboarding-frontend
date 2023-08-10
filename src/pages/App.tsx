@@ -18,7 +18,7 @@ const App = () => {
     if (!window.localStorage.getItem("JWT")) {
       navigate("/signin");
     }
-  });
+  }, [navigate]);
 
   /** Get To-Do */
   useEffect(() => {
@@ -52,13 +52,13 @@ const App = () => {
           }
         );
         const result = res.data;
-        setTodoList([...todoList, result]);
+        setTodoList((prev) => [...prev, result]);
         setTodoText("");
       } catch (e) {
         console.error(e);
       }
     },
-    [todoText, todoList]
+    [todoText]
   );
 
   /** Update To-Do */
@@ -79,14 +79,9 @@ const App = () => {
         updatedData,
         { headers: axiosPutHeaders }
       );
-      const newTodoList = todoList.map((todo) => {
-        if (todo.id === res.data.id) {
-          return data;
-        } else {
-          return todo;
-        }
-      });
-      setTodoList(newTodoList);
+      setTodoList((prev) =>
+        prev.map((todo) => (todo.id === res.data.id ? res.data : todo))
+      );
     } catch (e) {
       console.error(e);
     }
@@ -106,7 +101,7 @@ const App = () => {
         }
       );
       if (res.status === 204) {
-        setTodoList(todoList.filter((todo) => todo.id !== id));
+        setTodoList((prev) => prev.filter((todo) => todo.id !== id));
       }
     } catch (e) {
       console.error(e);
