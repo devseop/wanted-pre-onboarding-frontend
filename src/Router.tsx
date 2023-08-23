@@ -1,9 +1,10 @@
+import React from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import App from "./pages/App";
 import SignUp from "./pages/signUp";
 import SignIn from "./pages/signIn";
 
-function Router() {
+const Router = () => {
   const token = window.localStorage.getItem("JWT");
 
   return (
@@ -31,6 +32,6 @@ function Router() {
       </Routes>
     </BrowserRouter>
   );
-}
+};
 
 export default Router;

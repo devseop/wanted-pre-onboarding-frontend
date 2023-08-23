@@ -1,13 +1,15 @@
+import React from "react";
 import { useState, useCallback, useEffect } from "react";
 import axios from "axios";
 import TodoForm from "../components/TodoForm";
 import TodoItem from "../components/TodoItem";
 import styled from "@emotion/styled";
 import { useNavigate } from "react-router-dom";
+import { ITodoListProps } from "../types";
 
 const App = () => {
-  const [todoText, setTodoText] = useState("");
-  const [todoList, setTodoList] = useState([]);
+  const [todoText, setTodoText] = useState<string>("");
+  const [todoList, setTodoList] = useState<ITodoListProps[]>([]);
 
   const navigate = useNavigate();
 
@@ -16,7 +18,7 @@ const App = () => {
     if (!window.localStorage.getItem("JWT")) {
       navigate("/signin");
     }
-  });
+  }, [navigate]);
 
   /** Get To-Do */
   useEffect(() => {
@@ -33,7 +35,7 @@ const App = () => {
 
   /** Create To-Do */
   const createTodoHandler = useCallback(
-    async (e) => {
+    async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
 
       const axiosPostHeaders = {
@@ -50,17 +52,17 @@ const App = () => {
           }
         );
         const result = res.data;
-        setTodoList([...todoList, result]);
+        setTodoList((prev) => [...prev, result]);
         setTodoText("");
       } catch (e) {
         console.error(e);
       }
     },
-    [todoText, todoList]
+    [todoText]
   );
 
   /** Update To-Do */
-  const updateTodoHandler = async (data) => {
+  const updateTodoHandler = async (data: ITodoListProps) => {
     const axiosPutHeaders = {
       Authorization: `Bearer ${window.localStorage.getItem("JWT")}`,
       "Content-Type": "application/json",
@@ -77,21 +79,16 @@ const App = () => {
         updatedData,
         { headers: axiosPutHeaders }
       );
-      const newTodoList = todoList.map((todo) => {
-        if (todo.id === res.data.id) {
-          return data;
-        } else {
-          return todo;
-        }
-      });
-      setTodoList(newTodoList);
+      setTodoList((prev) =>
+        prev.map((todo) => (todo.id === res.data.id ? res.data : todo))
+      );
     } catch (e) {
       console.error(e);
     }
   };
 
   /** Delete To-Do */
-  const deleteTodoHandler = async (id) => {
+  const deleteTodoHandler = async (id: number) => {
     const axiosDeleteHeaders = {
       Authorization: `Bearer ${window.localStorage.getItem("JWT")}`,
     };
@@ -104,7 +101,7 @@ const App = () => {
         }
       );
       if (res.status === 204) {
-        setTodoList(todoList.filter((todo) => todo.id !== id));
+        setTodoList((prev) => prev.filter((todo) => todo.id !== id));
       }
     } catch (e) {
       console.error(e);
@@ -112,7 +109,7 @@ const App = () => {
   };
 
   /** Save To-Do Text */
-  const todoTextInputHandler = (e) => {
+  const todoTextInputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTodoText(e.target.value);
   };
 

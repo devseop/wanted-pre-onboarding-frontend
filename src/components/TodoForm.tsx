@@ -1,6 +1,8 @@
+import React from "react";
 import styled from "@emotion/styled";
+import { ITodoFormProps } from "../types";
 
-const TodoForm = ({ todoText, onSubmit, onChange }) => {
+const TodoForm = ({ todoText, onSubmit, onChange }: ITodoFormProps) => {
   const isBtnVaild = !(todoText.length > 0);
 
   return (
